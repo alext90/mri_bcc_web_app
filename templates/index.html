@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRI Brain Cancer Classification</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        async function uploadImage(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById("uploadForm"));
+            const response = await fetch("/upload/", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = `Predicted Class: ${result.predicted_class_name}`;
+
+            // Display the uploaded image
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const uploadedImage = document.getElementById("uploadedImage");
+                    uploadedImage.src = e.target.result;
+                    uploadedImage.style.display = "block";
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>MRI Brain Cancer Classification</h1>
+    <p>Upload an MRI image to classify it as either "Glioma", "Menin" or "Tumor".</p>
+    <form id="uploadForm" onsubmit="uploadImage(event)">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    <p id="result"></p>
+    <img id="uploadedImage" style="display: none; margin-top: 20px; max-width: 200px; border: 1px solid #ccc;" alt="Uploaded Image">
+</body>
+</html>
