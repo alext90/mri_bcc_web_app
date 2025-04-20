@@ -13,7 +13,7 @@ The app provides a simple interface to upload an image, displays the uploaded im
 - Display the uploaded image and the prediction result on the same page.
 
 ## Requirements
-- Python 3.11 or higher
+- Python 3.12 or higher
 - FastAPI
 - Uvicorn
 - PyTorch
@@ -31,14 +31,41 @@ The app provides a simple interface to upload an image, displays the uploaded im
 
 3. Copy your pre-trained model into the model folder
 
-## Running the App
-1. Start the FastAPI server:
-`uvicorn main:app --reload`
+## Running the App Locally
+1. Start the FastAPI server:  
+```
+uvicorn main:app --reload
+```
 
-2. Open your browser and navigate to:
-`http://127.0.0.1:8000`
+2. Open your browser and navigate to:  
+```
+http://127.0.0.1:8000
+```
 
 3. Upload an MRI image and view the prediction result
+
+## Running the App with Docker
+1. Build the Docker image:  
+```
+docker build -t mri-classification-app .
+```
+2. Run the Docker container:  
+```
+docker run -d -p 8000:8000 --name mri-classification-container mri-classification-app
+```
+3. Open your browser and navigate to:  
+```
+http://127.0.0.1:8000
+```
+4. To stop the container:  
+```
+docker stop mri-classification-container
+```
+5. To remove the container:  
+```
+docker rm mri-classification-container
+```
+
 
 ## Project Structure
 ```
