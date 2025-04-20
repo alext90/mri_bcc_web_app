@@ -6,7 +6,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from PIL import Image
-from torchvision import models
 
 import logging
 
@@ -18,7 +17,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # load model
-base_model = models.mobilenet_v2(pretrained=False)
 model = BCC_Model(num_classes=3)
 model.load_state_dict(torch.load("model/bcc_model.pth"))
 model.eval()
