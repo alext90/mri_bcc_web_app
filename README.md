@@ -1,33 +1,56 @@
-# FastAPI Template
+# MRI Brain Cancer Classification Web App
 
-This sample repo contains the recommended structure for a Python FastAPI project. In this sample, we use `fastapi` to build a web application and the `pytest` to run tests.
+This is a FastAPI web application that allows users to upload MRI scans and classify them into one of three classes using a PyTorch model. The three classes are:
+- **Glioma**
+- **Meningioma**
+- **Pituitary**
 
-For a more in-depth tutorial, see our [Fast API tutorial](https://code.visualstudio.com/docs/python/tutorial-fastapi).
+The app provides a simple interface to upload an image, displays the uploaded image, and shows the predicted class.
 
-The code in this repo aims to follow Python style guidelines as outlined in [PEP 8](https://peps.python.org/pep-0008/).
+## Features
+- Upload MRI images in `.jpg`, `.png`, or other common formats.
+- Classify the image into one of three classes using a pre-trained PyTorch model.
+- Display the uploaded image and the prediction result on the same page.
 
-## Set up instructions
+## Requirements
+- Python 3.11 or higher
+- FastAPI
+- Uvicorn
+- PyTorch
+- torchvision
+- Pillow
 
-This sample makes use of Dev Containers, in order to leverage this setup, make sure you have [Docker installed](https://www.docker.com/products/docker-desktop).
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/mri-classification-webapp.git
+   cd mri-classification-webapp```
 
-To successfully run this example, we recommend the following VS Code extensions:
+2. Create a virtual environment and activate it
+```uv run main.py```
 
-- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-- [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- [Python Debugger](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy)
-- [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) 
+## Running the App
+1. Start the FastAPI server:
+`uvicorn main:app --reload`
 
-In addition to these extension there a few settings that are also useful to enable. You can enable to following settings by opening the Settings editor (`Ctrl+,`) and searching for the following settings:
+2. Open your browser and navigate to:
+`http://127.0.0.1:8000`
 
-- Python > Analysis > **Type Checking Mode** : `basic`
-- Python > Analysis > Inlay Hints: **Function Return Types** : `enable`
-- Python > Analysis > Inlay Hints: **Variable Types** : `enable`
+3. Upload an MRI image and view the prediction result
 
-## Running the sample
-- Open the template folder in VS Code (**File** > **Open Folder...**)
-- Open the Command Palette in VS Code (**View > Command Palette...**) and run the **Dev Container: Reopen in Container** command.
-- Run the app using the Run and Debug view or by pressing `F5`
-- `Ctrl + click` on the URL that shows up on the terminal to open the running application 
-- Test the API functionality by navigating to `/docs` URL to view the Swagger UI
-- Configure your Python test in the Test Panel or by triggering the **Python: Configure Tests** command from the Command Palette
-- Run tests in the Test Panel or by clicking the Play Button next to the individual tests in the `test_main.py` file
+## Project Structure
+```
+dl_web_app/
+├── main.py                 # FastAPI application
+├── utils/
+│   ├── utils.py            # Helper functions (e.g., image transforms, predictions)
+│   ├── model.py            # Custom PyTorch model definition
+├── model/
+│   └── bcc_model.pth       # Pre-trained PyTorch model
+├── templates/
+│   └── index.html          # HTML template for the web interface
+├── static/
+│   └── style.css           # CSS for styling the web interface
+├── requirements.txt        # Python dependencies
+├── README.md               # Project documentation
+```
