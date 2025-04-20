@@ -29,6 +29,8 @@ The app provides a simple interface to upload an image, displays the uploaded im
 2. Create a virtual environment and activate it
 ```uv run main.py```
 
+3. Copy your pre-trained model into the model folder
+
 ## Running the App
 1. Start the FastAPI server:
 `uvicorn main:app --reload`
