@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded Cases</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Uploaded Cases</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Created At</th>
+                <th>Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for case in cases %}
+            <tr>
+                <td>{{ case.id }}</td>
+                <td>{{ case.created_at }}</td>
+                <td>{{ case.prediction }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/">Back to Home</a>
+</body>
+</html>

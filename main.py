@@ -11,6 +11,26 @@ import logging
 
 from utils.utils import image_to_tensor, make_prediction
 from utils.model import BCC_Model
+from db.models.caseModel import CaseModel, Base
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from typing import List
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+DATABASE_URL = "postgresql://postgres:password@db:5432/mri_db"
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base.metadata.create_all(bind=engine)
+
+# Dependency to get the database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
@@ -33,8 +53,13 @@ def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@app.get("/cases/", response_class=HTMLResponse)
+def get_cases(request: Request, db: Session = Depends(get_db)):
+    cases = db.query(CaseModel).all()
+    return templates.TemplateResponse("cases.html", {"request": request, "cases": cases})
+
 @app.post("/upload/")
-async def upload_image(file: UploadFile):
+async def upload_image(file: UploadFile, db: Session = Depends(get_db)):
     # Read the uploaded file
     try:
         contents = await file.read()
@@ -47,4 +72,10 @@ async def upload_image(file: UploadFile):
     input_tensor = image_to_tensor(image)
     predicted_class_name = make_prediction(input_tensor, model)
     logger.info(f"Predicted class: {predicted_class_name}")
+
+    new_case = CaseModel(prediction=predicted_class_name)
+    db.add(new_case)
+    db.commit()
+    db.refresh(new_case)
+
     return {"predicted_class_name": predicted_class_name}
